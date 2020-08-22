@@ -1,0 +1,5 @@
+archive
+.idea
+crostab_edge
+dist
+poetry.lock
