@@ -1,3 +1,3 @@
 from .crostab import Crostab
-from .field import Field
+from .series import Series
 from .table import Table
