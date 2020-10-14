@@ -21,7 +21,7 @@ class Crostab:
         self.side = side
         self.head = head
         self.rows = rows
-        self.title = title if title is None else ''
+        self.title = title if title is not None else ''
         if len(rest):
             for key, value in rest.items():
                 self.__dict__[key] = value

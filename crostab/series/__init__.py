@@ -8,7 +8,7 @@ class Series:
 
     def __init__(self, points, title, **rest):
         self.points = points
-        self.title = title if title is None else ''
+        self.title = title if title is not None else ''
         if len(rest):
             for key, value in rest.items():
                 self.__dict__[key] = value
