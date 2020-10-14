@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "crostab"
-version = "0.0.3"
+version = "0.0.4"
 description = ""
 authors = ["hazen <hoyeungw@outlook.com>"]
 
