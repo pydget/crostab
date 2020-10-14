@@ -3,6 +3,10 @@ from pyspare import deco, deco_matrix
 from crostab import Table
 from test.assets import bistro_duty_roster
 
+bistro_duty_roster['types'] = [1, 2, 3]
+bistro_duty_roster['rule'] = '-------------'
+print(bistro_duty_roster)
+
 table = Table.from_dict(bistro_duty_roster)
 
 print(deco(table))

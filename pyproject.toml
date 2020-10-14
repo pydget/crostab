@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "crostab"
-version = "0.0.2"
+version = "0.0.3"
 description = ""
 authors = ["hazen <hoyeungw@outlook.com>"]
 
@@ -12,7 +12,8 @@ ject = ">=0.0.2"
 
 [tool.poetry.dev-dependencies]
 pytest = ">=6.0.0"
-pyspare = "^0.0.1"
+pyspare = ">=0.0.1"
+intype = ">=0.0.1"
 
 [build-system]
 requires = ["poetry>=0.12"]

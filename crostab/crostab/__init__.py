@@ -1,4 +1,5 @@
 import json
+from dataclasses import dataclass
 
 from veho.columns import column
 from veho.matrix import init, mapper, shallow, transpose
@@ -7,24 +8,28 @@ from crostab.enum.keys import HEAD, ROWS, SIDE, TITLE
 from crostab.types import Matrix
 
 
-class CrosTab:
+@dataclass
+class Crostab:
     side: list
     head: list
     rows: Matrix
     title: str
 
-    __slots__ = (SIDE, HEAD, ROWS, TITLE)
+    # __slots__ = (SIDE, HEAD, ROWS, TITLE)
 
-    def __init__(self, side, head, rows, title=None):
+    def __init__(self, side, head, rows, title=None, **rest):
         self.side = side
         self.head = head
         self.rows = rows
         self.title = title if title is None else ''
+        if len(rest):
+            for key, value in rest.items():
+                self.__dict__[key] = value
 
     @staticmethod
     def ini(side, head, mapper_on_coordinate, title):
         rows = init(len(side), len(head), mapper_on_coordinate)
-        return CrosTab(side, head, rows, title)
+        return Crostab(side, head, rows, title)
 
     def to_dict(self): return {
         SIDE: self.side,
@@ -102,4 +107,4 @@ class CrosTab:
         if not head: head = self.head[:]
         if not rows: rows = shallow(self.rows)
         if not title: title = self.title
-        return CrosTab(side, head, rows, title)
+        return Crostab(side, head, rows, title)
