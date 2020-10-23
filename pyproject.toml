@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "crostab"
-version = "0.0.4"
-description = ""
+version = "0.0.6"
+description = "cross table analytical tool"
 authors = ["hazen <hoyeungw@outlook.com>"]
 
 [tool.poetry.dependencies]

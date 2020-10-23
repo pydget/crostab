@@ -31,14 +31,16 @@ class Crostab:
         rows = init(len(side), len(head), mapper_on_coordinate)
         return Crostab(side, head, rows, title)
 
-    def to_dict(self): return {
-        SIDE: self.side,
-        HEAD: self.head,
-        ROWS: self.rows,
-        TITLE: self.title
-    }
+    def to_dict(self):
+        return {
+            SIDE: self.side,
+            HEAD: self.head,
+            ROWS: self.rows,
+            TITLE: self.title
+        }
 
-    def to_json(self): return json.dumps(self.to_dict())
+    def to_json(self):
+        return json.dumps(self.to_dict())
 
     def map(self, fn):
         rows = mapper(self.rows, fn)
@@ -49,21 +51,28 @@ class Crostab:
             if (x := self.roin(r)) >= 0 and (y := self.coin(c)) >= 0 \
             else None
 
-    def element(self, x, y): return self.rows[x][y]
+    def element(self, x, y):
+        return self.rows[x][y]
 
     @property
-    def height(self): return len(self.side)
+    def height(self):
+        return len(self.side)
 
     @property
-    def width(self): return len(self.head)
+    def width(self):
+        return len(self.head)
 
     def roin(self, field):
-        try: return self.side.index(field)
-        except ValueError: return -1
+        try:
+            return self.side.index(field)
+        except ValueError:
+            return -1
 
     def coin(self, field):
-        try: return self.head.index(field)
-        except ValueError: return -1
+        try:
+            return self.head.index(field)
+        except ValueError:
+            return -1
 
     def row(self, side_field):
         return self.rows[x] if (x := self.roin(side_field)) >= 0 else None
