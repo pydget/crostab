@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "crostab"
-version = "0.0.6"
+version = "0.0.7"
 description = "cross table analytical tool"
 authors = ["hazen <hoyeungw@outlook.com>"]
 
