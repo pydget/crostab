@@ -1,7 +1,8 @@
 from dataclasses import dataclass
 
 from veho.columns import column
-from veho.matrix import shallow, size, transpose
+from veho.matrix import size, mapper, shallow, transpose, mutate
+from veho.vector import mapper as mapper_vector, mutate as mutate_vector
 
 from crostab.types import Matrix
 
@@ -32,28 +33,47 @@ class Table:
         return Table(**dict_ob)  # head, rows, title, types
 
     @property
-    def size(self): return size(self.rows)
+    def size(self):
+        return size(self.rows)
 
     @property
-    def height(self): return len(self.rows)
+    def height(self):
+        return len(self.rows)
 
     @property
-    def width(self): return len(self.head)
+    def width(self):
+        return len(self.head)
 
     @property
-    def columns(self): return transpose(self.rows)
+    def columns(self):
+        return transpose(self.rows)
 
-    def cell(self, x, y): return self.rows[x][y]
+    def cell(self, x, y):
+        return self.rows[x][y]
 
     def coin(self, field):
-        try: return field if isinstance(field, int) else self.head.index(field)
-        except ValueError: return -1
+        try:
+            return field if isinstance(field, int) else self.head.index(field)
+        except ValueError:
+            return -1
 
     def column_indexes(self, fields):
         return [self.coin(field) for field in fields]
 
     def column(self, field):
         return column(self.rows, y) if (y := self.coin(field)) >= 0 else None
+
+    def map(self, fn):
+        return self.copy(rows=mapper(self.rows, fn))
+
+    def mutate(self, fn):
+        return self.boot(rows=mutate(self.rows, fn))
+
+    def map_head(self, fn):
+        return self.copy(head=mapper_vector(self.head, fn))
+
+    def mutate_head(self, fn):
+        return self.boot(head=mutate_vector(self.head, fn))
 
     def set_column(self, field, new_column):
         if (y := self.coin(field)) < 0: return self

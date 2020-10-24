@@ -2,7 +2,8 @@ import json
 from dataclasses import dataclass
 
 from veho.columns import column
-from veho.matrix import init, mapper, shallow, transpose
+from veho.matrix import init, mapper, shallow, transpose, mutate
+from veho.vector import mapper as mapper_vector, mutate as mutate_vector
 
 from crostab.enum.keys import HEAD, ROWS, SIDE, TITLE
 from crostab.types import Matrix
@@ -42,10 +43,6 @@ class Crostab:
     def to_json(self):
         return json.dumps(self.to_dict())
 
-    def map(self, fn):
-        rows = mapper(self.rows, fn)
-        return self.copy(self.side, self.head, rows, self.title)
-
     def cell(self, r, c):
         return self.rows[x][y] \
             if (x := self.roin(r)) >= 0 and (y := self.coin(c)) >= 0 \
@@ -79,6 +76,24 @@ class Crostab:
 
     def column(self, head_field):
         return column(self.rows, y) if (y := self.coin(head_field)) >= 0 else None
+
+    def map(self, fn):
+        return self.copy(rows=mapper(self.rows, fn))
+
+    def mutate(self, fn):
+        return self.boot(rows=mutate(self.rows, fn))
+
+    def map_side(self, fn):
+        return self.copy(side=mapper_vector(self.side, fn))
+
+    def mutate_side(self, fn):
+        return self.boot(side=mutate_vector(self.side, fn))
+
+    def map_head(self, fn):
+        return self.copy(head=mapper_vector(self.head, fn))
+
+    def mutate_head(self, fn):
+        return self.boot(head=mutate_vector(self.head, fn))
 
     def set_row(self, side_field, new_row):
         if (x := self.roin(side_field)) < 0: return self
