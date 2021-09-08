@@ -1,10 +1,12 @@
+import collections
 import json
 from dataclasses import dataclass
 
-from veho.columns import column
+from veho.columns import column, push_column, pop_column, shift_column, unshift_column
 from veho.matrix import init, mapper, shallow, transpose, mutate
 from veho.vector import mapper as mapper_vector, mutate as mutate_vector
 
+from crostab.structs import Field
 from crostab.enum.keys import HEAD, ROWS, SIDE, TITLE
 from crostab.types import Matrix
 
@@ -94,6 +96,46 @@ class Crostab:
 
     def mutate_head(self, fn):
         return self.boot(head=mutate_vector(self.head, fn))
+
+    def push_row(self, label, row):
+        self.side.append(label)
+        self.rows.append(row)
+        return self
+
+    def pop_row(self):
+        side = self.side.pop()
+        row = self.rows.pop()
+        return Field(side, row)
+
+    def unshift_row(self, label, row):
+        self.side.insert(0, label)
+        self.rows.insert(0, row)
+        return self
+
+    def shift_row(self):
+        side = self.side.pop(0)
+        row = self.rows.pop(0)
+        return Field(side, row)
+
+    def push_column(self, label, column):
+        self.head.append(label)
+        push_column(self.rows, column)
+        return self
+
+    def pop_column(self):
+        head = self.head.pop()
+        col = pop_column(self.rows)
+        return Field(head, col)
+
+    def unshift_column(self, label, column):
+        self.head.insert(0, label)
+        unshift_column(self.rows, column)
+        return self
+
+    def shift_column(self):
+        head = self.head.pop(0)
+        col = shift_column(self.rows)
+        return Field(head, col)
 
     def set_row(self, side_field, new_row):
         if (x := self.roin(side_field)) < 0: return self
