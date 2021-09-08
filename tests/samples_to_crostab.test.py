@@ -12,10 +12,9 @@ card_collection = module_to_dict(cards)
 
 print(deco(card_collection))
 
-crostab = samples_to_crostab(
-    card_collection,
-    ['amber', 'indigo', 'yellow'],
-    ['base', 'lighten_1', 'darken_1']
-)
+side = ['amber', 'indigo', 'yellow']
+head = ['base', 'lighten_1', 'darken_1']
+
+crostab = samples_to_crostab(card_collection, side=side, head=head)
 
 print(deco_crostab(crostab))
